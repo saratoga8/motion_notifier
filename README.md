@@ -1,7 +1,8 @@
 ## Requirements:  
-- Motion detecting 
+- Get detections from a detection framework 
 - Save detections in pictures and videos  
-- Send notification to different messengers or email  
+- Send notification to different messengers or email
+- Control sessions via messenger
 
 ## Terms:
 - detections framework - datecting motions program

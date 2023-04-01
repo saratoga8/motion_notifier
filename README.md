@@ -9,4 +9,7 @@
 - notification - item with the info about detection
 - client - application receiving notifications
 - media - resources of detection. e.g. video/pics
--
+- session - system running
+            session on - when the system runs and can get detections
+            session off - when the system runs and can't get detections
+

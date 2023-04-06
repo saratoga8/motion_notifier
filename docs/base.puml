@@ -1,0 +1,31 @@
+@startmindmap
+'https://plantuml.com/mindmap-diagram
+
+caption figure 1
+title My super title
+
+* <&star>Motion Notifier
+** <&camera-slr>detections framework
+*** <&warning> detections
+** <&flag>notifications
+*** <&image>media
+** <&clock>session
+*** <&power-standby>on/off
+** <&comment-square>client
+*** <&envelope-closed>notifications
+*** <&command>commands
+** <&wrench>configurations
+** <&person>user
+** agent
+
+header
+My super header
+endheader
+
+center footer My super footer
+
+legend right
+  Short
+  legend
+endlegend
+@endmindmap

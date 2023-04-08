@@ -4,14 +4,25 @@
 
 title Detections Framework
 
+left to right direction
+
 :System: as System
 :Detections Framework: as Framework
-(Ways of turning on/off\nof the framework) as (Ways)
-(Configuration\nof shared resources paths) as (Conf)
 
-System -> (Connecting)
-Framework -- (Connecting)
-(Connecting) .> (Conf) : include
-(Connecting) .> (Ways) : include
+rectangle configuration {
+    (Configuration\nof shared resources paths) as (Conf)
+    (Turning on/off the framework) as (On/Off)
+    (Configuration of the framework run) as (Run)
+
+    System -> (Connecting)
+    Framework -- (Connecting)
+    (Connecting) .> (Conf) : include
+    (Connecting) .> (Run) : include
+}
+
+System -> (On/Off)
+Framework -- (On/Off)
+
+note right of (On/Off) : If it possible.
 
 @enduml

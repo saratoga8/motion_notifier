@@ -3,6 +3,7 @@
 - Save detections in pictures and videos  
 - Send notification to different messengers or email
 - Control sessions via messenger
+- Updating the system
 
 ## Terms:
 - detections framework - detecting motions program

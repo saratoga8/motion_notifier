@@ -1,29 +1,35 @@
 @startmindmap
 'https://plantuml.com/mindmap-diagram
 
-caption figure 1
-title My super title
+!theme spacelab
+
+title Motion Notifier
 
 * <&star>Motion Notifier
 ** <&camera-slr>detections framework
 *** <&warning> detections
+**** <&folder>local
+**** <&cloud>cloud
 ** <&flag>notifications
 *** <&image>media
+*** <&clock>time
 ** <&clock>session
 *** <&power-standby>on/off
 ** <&comment-square>client
 *** <&envelope-closed>notifications
 *** <&command>commands
 ** <&wrench>configurations
-** <&person>user
-** agent
-
-header
-My super header
-endheader
-
-center footer My super footer
-
+*** <&browser>interface
+**** CLi
+**** UI
+*** <&file>files
+** <&people>users
+*** <&person>user
+**** <&pulse>presence
+***** <&wifi>network
+***** <&eye>visual
+** <&reload>agent
+** <&calendar>scheduler
 legend right
   Short
   legend

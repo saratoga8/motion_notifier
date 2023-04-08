@@ -1,0 +1,17 @@
+@startuml
+
+'https://plantuml.com/use-case-diagram
+
+title Detections Framework
+
+:System: as System
+:Detections Framework: as Framework
+(Ways of turning on/off\nof the framework) as (Ways)
+(Configuration\nof shared resources paths) as (Conf)
+
+System -> (Connecting)
+Framework -- (Connecting)
+(Connecting) .> (Conf) : include
+(Connecting) .> (Ways) : include
+
+@enduml

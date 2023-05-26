@@ -6,11 +6,11 @@
 - Updating the system
 
 ## Terms:
-- detections framework - detecting motions program
-- agent - for controlling of local running
+- detections framework - detecting motions program (like [Motion project](https://motion-project.github.io))
+- agent - for local running control
 - detection - event received from the detection framework
-- notification - item with the info about detection
-- client - application receiving notifications
+- notification - item with the info about detection(e.g. pictures, timestamp, etc)
+- client - application receiving notifications(e.g. Telegram bot)
 - media - resources of detection. e.g. video/pics/sound
 - session - system running
             session on - when the system runs and can get detections

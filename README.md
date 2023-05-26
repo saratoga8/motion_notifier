@@ -4,6 +4,11 @@
 - Send notification to different messengers or email
 - Control sessions via messenger
 - Updating the system
+- Scheduling the detection turn/off
+- Automatic turning on/off by devices
+- UI
+- Configurable
+- Face Detection for turning off
 
 ## Terms:
 - detections framework - detecting motions program (like [Motion project](https://motion-project.github.io))
@@ -15,4 +20,5 @@
 - session - system running
             session on - when the system runs and can get detections
             session off - when the system runs and can't get detections
+
 

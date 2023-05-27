@@ -1,34 +1,59 @@
 @startuml
 'https://plantuml.com/component-diagram
 
+left to right direction
 
-package "Some Group" {
-  HTTP - [First Component]
-  [Another Component]
-}
+package "Agent" {
+    [Controller] as Agent_Controller
+    package "Authentication" {
+      [Presence Validator]
+      [Network]
+      [Visual]
+    }
 
-node "Other Groups" {
-  FTP - [Second Component]
-  [First Component] --> FTP
-}
+    package "Detections Framework Controller" {
+      [Detections Dispatcher] -> "Detections Framework"
+    }
 
-cloud {
-  [Example 1]
-}
+    node "Detections Framework" {
+    }
 
-
-database "MySql" {
-  folder "This is my folder" {
-    [Folder 3]
-  }
-  frame "Foo" {
-    [Frame 4]
-  }
+    package "Scheduling" {
+      [Timer]
+    }
 }
 
 
-[Another Component] --> [Example 1]
-[Example 1] --> [Folder 3]
-[Folder 3] --> [Frame 4]
+package "Client" {
+    [Controller] as Client_Controller
+    [Notifications Dispatcher]
+    [Commands Receiver]
+    [Adapter]
+}
+
+package Configuration {
+}
+
+cloud "Remote Client" {
+}
+
+node "Remote Client Mock" {
+}
+
+
+
+[Adapter] <-- [Notifications Dispatcher]
+[Adapter] <-- [Commands Receiver]
+[Adapter] -> "Remote Client"
+[Adapter] -> "Remote Client Mock"
+Client_Controller <- Agent_Controller
+Client_Controller --> Agent_Controller
+[Presence Validator] <-- Agent_Controller
+[Detections Dispatcher] <-- Agent_Controller
+[Timer] <-- Agent_Controller
+Client_Controller -> [Commands Receiver]
+[Notifications Dispatcher] <- Client_Controller
+[Presence Validator] -> [Network]
+[Visual] <- [Presence Validator]
 
 @enduml

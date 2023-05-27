@@ -17,8 +17,8 @@
 - notification - item with the info about detection(e.g. pictures, timestamp, etc)
 - client - application receiving notifications(e.g. Telegram bot)
 - media - resources of detection. e.g. video/pics/sound
-- session - system running
-            session on - when the system runs and can get detections
-            session off - when the system runs and can't get detections
+- session - system running:  
+             - session on - when the system runs and can get detections  
+             - session off - when the system runs and can't get detections
 
 

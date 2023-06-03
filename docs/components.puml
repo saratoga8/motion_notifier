@@ -26,33 +26,35 @@ package "Agent" {
 
 package "Client" {
     [Controller] as Client_Controller
-    [Notifications Dispatcher]
-    [Commands Receiver]
-    [Adapter]
+    package Communicators {
+        [Notifications Dispatcher]
+        [Commands Receiver]
+    }
+    package Applications {
+    }
 }
 
 package Configuration {
+    [Configurations_Manager]
 }
 
-cloud "Remote Client" {
+cloud "Remote Clients" {
 }
 
-node "Remote Client Mock" {
-}
-
-
-
-[Adapter] <-- [Notifications Dispatcher]
-[Adapter] <-- [Commands Receiver]
-[Adapter] -> "Remote Client"
-[Adapter] -> "Remote Client Mock"
+[Applications] <-- [Notifications Dispatcher]
+[Applications] <-- [Commands Receiver]
+[Applications] -> [Configurations_Manager]
+[Applications] --> "Remote Clients"
 Client_Controller <- Agent_Controller
 Client_Controller --> Agent_Controller
 [Presence Validator] <-- Agent_Controller
+[Configurations_Manager] <-- [Presence Validator]
+[Timer] -> [Configurations_Manager]
 [Detections Dispatcher] <-- Agent_Controller
+[Configurations_Manager] <- [Detections Dispatcher]
 [Timer] <-- Agent_Controller
 Client_Controller -> [Commands Receiver]
-[Notifications Dispatcher] <- Client_Controller
+[Notifications Dispatcher] <-- Client_Controller
 [Presence Validator] -> [Network]
 [Visual] <- [Presence Validator]
 

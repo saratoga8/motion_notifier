@@ -10,14 +10,15 @@ title Motion Notifier
 *** <&warning> detections
 **** <&folder>local
 **** <&cloud>cloud
-** <&flag>notifications
-*** <&image>media
-*** <&clock>time
 ** <&clock>session
 *** <&power-standby>on/off
 ** <&comment-square>client
+*** commands
+**** text
+**** <&clock>time
 *** <&envelope-closed>notifications
-*** <&command>commands
+**** <&image>media
+**** <&clock>time
 ** <&wrench>configurations
 *** <&browser>interface
 **** CLi
@@ -29,6 +30,12 @@ title Motion Notifier
 ***** <&wifi>network
 ***** <&eye>visual
 ** <&reload>agent
+*** <&warning> detections
+**** <&image>media
+**** <&clock>time
+*** commands
+**** text
+**** <&clock>time
 ** <&calendar>scheduler
 legend right
   Short

@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+title Detections Framework control and interactions
+
+left to right direction
+
+actor User as Usr
+
+rectangle System {
+   (Agent creates detection) - (Notification)
+   (Client sends notification) as (Notification)
+}
+   (Detections Framework detected smth) -- (Agent creates detection)
+
+Usr - (Notification)
+
+@enduml

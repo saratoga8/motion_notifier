@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+actor User as Usr
+
+rectangle system {
+  Usr - (client receives command)
+  (client receives command) - (agent executes command)
+  (agent executes command) - (stop/start detections framework)
+}
+
+@enduml

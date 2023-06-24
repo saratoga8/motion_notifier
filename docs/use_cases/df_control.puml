@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+
+:Detections Framework: as DF
+
+
+
+rectangle system {
+   (agent stops/starts DF) - (timer triggered)
+   (user presents/not) - (agent stops/starts DF)
+   (agent stops/starts DF) -- DF
+   (agent stops/starts DF) .> (connecting DF) : include
+   (connecting DF) - DF
+}
+
+@enduml

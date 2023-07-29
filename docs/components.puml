@@ -51,26 +51,26 @@ package Messages {
 }
 
 package Configuration {
-    [Configurations_Manager]
+    [Configurations Manager]
 }
 
 cloud "Remote Clients" {
 }
 
 [Applications] <-- [Messages Dispatcher]
-[Applications] -> [Configurations_Manager]
+[Applications] -> [Configurations Manager]
 [Applications] -> "Remote Clients"
 Client_Controller -> [Message]
 [Presence Validator] <- Agent_Controller
 Agent_Controller -> [Message]
-[Configurations_Manager] <-- [Presence Validator]
-[Timer] -> [Configurations_Manager]
+[Configurations Manager] <-- [Presence Validator]
+[Timer] -> [Configurations Manager]
 [Detections Dispatcher] <-- Agent_Controller
-[Configurations_Manager] <- [Detections Dispatcher]
+[Configurations Manager] <- [Detections Dispatcher]
 [Timer] <-- Agent_Controller
 [Presence Validator] -> [Network]
 [Visual] <- [Presence Validator]
-[Configurations_Manager] <- [Controller]
+[Configurations Manager] <- [Controller]
 [Controller] - UI
 
 @enduml

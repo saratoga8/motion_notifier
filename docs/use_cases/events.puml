@@ -1,0 +1,39 @@
+@startuml
+'https://plantuml.com/deployment-diagram
+
+
+
+cloud App
+actor User
+node client
+
+
+component agent {
+  component Controller
+  queue events
+
+  rectangle {
+    component DFS
+    component Auth
+    component Scheduler
+  }
+
+  Auth <-> events
+  DFS <-> events
+  Scheduler <-down-> events
+  Controller <-down-> events
+}
+
+rectangle {
+  queue commands
+  queue messages
+}
+
+User <-down-> App
+App <-down-> client
+client <-> commands
+commands <-> Controller
+Controller <-down-> messages
+client <-down-> messages
+
+@enduml

@@ -1,39 +1,42 @@
 @startuml
-'https://plantuml.com/deployment-diagram
+'https://plantuml.com/object-diagram
 
-
-
-cloud App
-actor User
-package client
-
-
-package agent {
-  component Controller
-  queue events
-
-  rectangle {
-    component DFS
-    component Auth
-    component Scheduler
+package Events {
+  object Event {
+    id: long
+    time_stamp: long
+    from
+    to
+    state
   }
 
-  Auth <-> events
-  DFS <-> events
-  Scheduler <-down-> events
-  Controller <-down-> events
+  object DFS {
+    path: string
+  }
+
+  object Auth {
+    presence: true/false
+  }
+
+  object Scheduler {
+    detection: started/stopped
+  }
 }
 
-rectangle {
-  queue commands
-  queue messages
+DFS -up-|>Event
+Auth -up-|>Event
+Scheduler -up-|>Event
+
+object London
+object Washington
+object Berlin
+object NewYork
+
+map CapitalCity {
+ UK *-> London
+ USA *--> Washington
+ Germany *---> Berlin
 }
 
-User <-down-> App
-App <-down-> client
-client <-> commands
-commands <-> Controller
-Controller <-down-> messages
-client <-down-> messages
-
+NewYork --> CapitalCity::USA
 @enduml

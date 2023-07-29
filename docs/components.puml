@@ -20,18 +20,14 @@ package "Agent" {
 
 
     package EventChannel {
-      Agent_Controller -> [Event]
+      Agent_Controller --> [Event]
       [Presence Validator] -> [Event]
-      [Detections Dispatcher] -> [Event]
+      [Detections Dispatcher] --> [Event]
     }
 
     package "Scheduling" {
       [Timer] -> [Event]
     }
-
-}
-
-package Controller {
 
 }
 
@@ -43,34 +39,22 @@ package "Client" {
     }
 }
 
-package Messages {
+package MessagesChannel {
     [Command] <- [Message]
     [Message]
     [Message] -> [Notification]
-    [Controller] -> [Message]
 }
 
-package Configuration {
-    [Configurations Manager]
-}
 
 cloud "Remote Clients" {
 }
 
 [Applications] <-- [Messages Dispatcher]
-[Applications] -> [Configurations Manager]
 [Applications] -> "Remote Clients"
 Client_Controller -> [Message]
-[Presence Validator] <- Agent_Controller
 Agent_Controller -> [Message]
-[Configurations Manager] <-- [Presence Validator]
-[Timer] -> [Configurations Manager]
-[Detections Dispatcher] <-- Agent_Controller
-[Configurations Manager] <- [Detections Dispatcher]
-[Timer] <-- Agent_Controller
+
 [Presence Validator] -> [Network]
 [Visual] <- [Presence Validator]
-[Configurations Manager] <- [Controller]
-[Controller] - UI
 
 @enduml

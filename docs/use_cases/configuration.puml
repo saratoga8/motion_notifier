@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+
+package Agent {
+  component Scheduler {
+    [ConfigurationsManager] as sched_conf
+  }
+  component Auth {
+    [ConfigurationsManager] as auth_conf
+  }
+
+  component DFS {
+    [ConfigurationsManager] as dfs_conf
+  }
+}
+
+package client {
+    [ConfigurationsManager] as client_conf
+}
+
+package Configuration {
+  [Manager] .> client_conf
+  [Manager] ..> dfs_conf
+  [Manager] ..> auth_conf
+  [Manager] ..> sched_conf
+  [Viewer] -. UI
+  [Viewer] -> [Manager]
+}
+
+@enduml

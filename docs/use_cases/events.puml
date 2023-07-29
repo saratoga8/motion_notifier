@@ -5,10 +5,10 @@
 
 cloud App
 actor User
-node client
+package client
 
 
-component agent {
+package agent {
   component Controller
   queue events
 

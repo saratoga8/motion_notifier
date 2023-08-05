@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+hide footbox
+
+entity DF
+control DetectionsWatchDog as DWD
+participant DetectionsDispatcher as DD
+participant "DFS Event" as DFSE
+queue Events
+
+DF <- DWD: any detections?
+DF -> DWD: detection
+activate DWD
+
+create Detection
+DWD -> Detection : new
+activate Detection
+Detection --> DWD : instance
+deactivate Detection
+
+DWD -> DD: notify
+deactivate DWD
+
+activate DD
+create DFSE
+DD -> DFSE : new
+DFSE --> DD : instance
+DD -> Events : send
+
+
+
+@enduml

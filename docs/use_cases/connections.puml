@@ -10,7 +10,7 @@ package client
 
 package agent {
   component Controller
-  queue events
+  queue events as agent_events
 
   rectangle {
     component DFS
@@ -18,22 +18,22 @@ package agent {
     component Scheduler
   }
 
-  Auth <-> events
-  DFS <-> events
-  Scheduler <-down-> events
-  Controller <-down-> events
+  Auth <-> agent_events
+  DFS <-> agent_events
+  Scheduler <-down-> agent_events
+  Controller <-down-> agent_events
 }
 
-rectangle {
+package messages {
   queue commands
-  queue messages
+  queue notifications
 }
 
 User <-down-> App
 App <-down-> client
 client <-> commands
 commands <-> Controller
-Controller <-down-> messages
-client <-down-> messages
+Controller <-down-> notifications
+client <-down-> notifications
 
 @enduml

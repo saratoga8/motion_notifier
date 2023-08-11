@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+hide footbox
+
+
+control Controller
+queue Commands
+participant DFS
+participant Scheduler
+participant Auth
+
+Commands -> Controller: command
+activate Controller
+
+create Command
+Controller -> Command: new
+activate Command
+Command --> Controller
+Controller -> Command: execute
+alt command for DFS
+   Command -> DFS
+else command for Scheduler
+   Command -> Scheduler
+else command for Auth
+   Command -> Auth
+end
+deactivate Command
+destroy Command
+
+
+@enduml

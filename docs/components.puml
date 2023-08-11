@@ -12,10 +12,9 @@ package "Agent" {
     }
 
     package "Detections Framework Controller" {
-      [Detections Dispatcher] -> "Detections Framework"
+      () "Detections Framework" as DF
+      [Detections Dispatcher] -> DF
       [Detection] <- [Detections Dispatcher]
-      node "Detections Framework" {
-      }
     }
 
 

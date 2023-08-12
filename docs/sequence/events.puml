@@ -5,7 +5,6 @@ hide footbox
 
 queue Events
 queue Notifications
-queue Commands
 control Controller
 participant Event
 
@@ -18,16 +17,5 @@ Notification -> Controller: item
 deactivate Notification
 Controller -> Notifications: send
 deactivate Controller
-
-Commands -> Controller: command
-activate Controller
-create Event
-Controller -> Event: new
-activate Event
-Event -> Controller: item
-deactivate Event
-Controller -> Events: send
-deactivate Controller
-
 
 @enduml

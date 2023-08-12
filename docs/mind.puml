@@ -7,6 +7,10 @@ title Motion Notifier
 
 * <&star>Motion Notifier
 ** <&camera-slr>detections framework
+*** events
+**** detection
+*** commands
+**** turn on/off
 *** <&warning> detections
 **** <&folder>local
 **** <&cloud>cloud
@@ -25,6 +29,11 @@ title Motion Notifier
 **** UI
 *** <&file>files
 ** <&people>users
+*** events
+**** appearance
+**** disappearance
+*** commands
+**** session on/off
 *** <&person>user
 **** <&pulse>presence
 ***** <&wifi>network
@@ -37,6 +46,10 @@ title Motion Notifier
 **** text
 **** <&clock>time
 ** <&calendar>scheduler
+*** events
+**** session on/off
+*** commands
+**** turn on/off
 legend right
   Short
   legend

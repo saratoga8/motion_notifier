@@ -56,4 +56,5 @@ Agent_Controller -> [Message]
 [Presence Validator] -> [Network]
 [Visual] <- [Presence Validator]
 
+note right of "Remote Clients": CLi, WebUI, mobile
 @enduml

@@ -1,0 +1,11 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+hide footbox
+autonumber
+
+collections ConfigurationsManager as CM
+
+Manager -> CM: get config
+CM -> Manager: config
+@enduml

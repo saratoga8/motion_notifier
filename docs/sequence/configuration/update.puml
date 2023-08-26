@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+hide footbox
+autonumber
+
+actor User as usr
+participant Viewer
+participant Manager
+collections ConfigurationsManager as CM
+
+usr -> Viewer: get config
+Viewer -> Manager: get config
+Manager -> CM: get config
+CM -> Manager: config
+Manager -> Viewer: config
+Viewer -> usr: conig
+
+usr -> usr: edit config
+usr -> Viewer: update config
+Viewer -> Manager: update config
+Manager -> CM: update config
+
+
+@enduml

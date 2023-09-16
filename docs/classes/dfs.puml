@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface DetectionsFramework {
+  detections(): Detection[]
+  exec_command(command: Commands)
+  status(): Status
+}
+
+class MotionFramework
+
+Interface Detection {
+  time: number
+  data: any
+}
+
+class MotionDetectionData {
+   audio: string
+   video: string
+   image: string
+}
+
+class MotionDetection {
+   time: number
+   data: MotionDetectionData
+}
+
+enum Commands {
+  START
+  STOP
+  RESTART
+}
+
+enum Status {
+  STOPPED
+  RUNNING
+}
+
+DetectionsFramework <|-- MotionFramework
+Detection <|-- MotionDetection
+DetectionsFramework .. Status
+DetectionsFramework .. Detection
+DetectionsFramework .. Commands
+MotionDetection .. MotionDetectionData
+
+@enduml

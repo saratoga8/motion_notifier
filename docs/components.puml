@@ -11,7 +11,7 @@ package "Agent" {
       [Visual]
     }
 
-    package "Detections Framework Controller" {
+    package "Detections Framework Service" {
       () "Detections Framework" as DF
       [Detections Dispatcher] -> DF
       [Detection] <- [Detections Dispatcher]

@@ -53,6 +53,10 @@ cloud "Remote Clients" {
 Client_Controller -> [Message]
 Agent_Controller -> [Message]
 
+[Detections Dispatcher] <-- Agent_Controller : commands
+[Presence Validator] <-- Agent_Controller : commands
+[Timer] <-- Agent_Controller : commands
+
 [Presence Validator] -> [Network]
 [Visual] <- [Presence Validator]
 

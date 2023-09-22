@@ -22,6 +22,9 @@ package agent {
   DFS <-> agent_events
   Scheduler <-down-> agent_events
   Controller <-down-> agent_events
+  Controller -> Auth: commands
+  Controller -> DFS: commands
+  Controller -> Scheduler: commands
 }
 
 package messages {

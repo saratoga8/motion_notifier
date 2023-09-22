@@ -13,15 +13,15 @@ package "Agent" {
 
     package "Detections Framework Service" {
       () "Detections Framework" as DF
-      [Detections Dispatcher] -> DF
-      [Detection] <- [Detections Dispatcher]
+      [Controller] -> DF
+      [Detection] <- [Controller]
     }
 
 
     package EventChannel {
       Agent_Controller --> [Event]
       [Presence Validator] -> [Event]
-      [Detections Dispatcher] --> [Event]
+      [Detection] -> [Event]
     }
 
     package "Scheduling" {
@@ -53,7 +53,7 @@ cloud "Remote Clients" {
 Client_Controller -> [Message]
 Agent_Controller -> [Message]
 
-[Detections Dispatcher] <-- Agent_Controller : commands
+[Controller] <-- Agent_Controller : commands
 [Presence Validator] <-- Agent_Controller : commands
 [Timer] <-- Agent_Controller : commands
 

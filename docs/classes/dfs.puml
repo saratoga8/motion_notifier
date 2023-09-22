@@ -4,28 +4,39 @@
 
 
 interface DetectionsFramework {
-  detections(): Detection[]
   exec_command(command: Commands)
   status(): Status
 }
 
+interface Detectable {
+    detections(): Detection[]
+}
+
 class MotionFramework
 
-Interface Detection {
-  time: number
-  data: any
+
+package Detections {
+    Interface Detection {
+      time: number
+      data: any
+    }
+
+    class MotionDetectionData {
+       audio: string
+       video: string
+       image: string
+    }
+
+    class MotionDetection {
+       time: number
+       data: MotionDetectionData
+    }
+
+    class DetectionsDispatcher {
+       notifyAbout(detection: Detection)
+    }
 }
 
-class MotionDetectionData {
-   audio: string
-   video: string
-   image: string
-}
-
-class MotionDetection {
-   time: number
-   data: MotionDetectionData
-}
 
 enum Commands {
   START
@@ -40,30 +51,29 @@ enum Status {
 }
 
 class DetectionsObserver {
-   - framework
-   - eventsDispatcher
+   - framework: Detectable
+   - eventsDispatcher: DetectionsDispatcher
    start(): void
    stop(): void
 }
 
-class DetectionsDispatcher {
-   notifyAbout(detection: Detection)
-}
 
 class Controller {
-   - framework
-   - detectionsObserver
+   - framework: DetectionsFramework
+   - detectionsObserver: DetectionsObserver
 }
 
-DetectionsObserver o. DetectionsFramework
+DetectionsObserver o. Detectable
 DetectionsDispatcher .* DetectionsObserver
 DetectionsFramework <|-- MotionFramework
 Detection <|-- MotionDetection
 DetectionsFramework .. Status
-DetectionsFramework .. Detection
+Detectable .. Detection
+DetectionsDispatcher .. Detection
 DetectionsFramework .. Commands
 MotionDetection .. MotionDetectionData
-DetectionsObserver *- Controller
-DetectionsFramework *- Controller
+DetectionsObserver -down-* Controller
+DetectionsFramework -down-* Controller
+DetectionsFramework -up-|> Detectable
 
 @enduml

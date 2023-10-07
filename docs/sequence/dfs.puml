@@ -5,23 +5,23 @@ autonumber
 hide footbox
 
 entity DF
-control DetectionsWatchDog as DWD
+control DetectionsObserver as DO
 participant DetectionsDispatcher as DD
 participant "DFS Event" as DFSE
 queue Events
 
-DF <- DWD: any detections?
-DF -> DWD: detection
-activate DWD
+DF <- DO: any detections?
+DF -> DO: detection
+activate DO
 
 create Detection
-DWD -> Detection : new
+DO -> Detection : new
 activate Detection
-Detection --> DWD : instance
+Detection --> DO : instance
 deactivate Detection
 
-DWD -> DD: notify
-deactivate DWD
+DO -> DD: notify
+deactivate DO
 
 activate DD
 create DFSE

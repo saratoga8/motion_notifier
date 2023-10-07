@@ -2,78 +2,98 @@
 'https://plantuml.com/class-diagram
 
 
+package DetectionsFrameworkService {
+    interface DetectionsFramework #aliceblue ##[dotted]blue {
+      status(): Status
+    }
 
-interface DetectionsFramework {
-  exec_command(command: Commands)
-  status(): Status
+    interface Detectable #aliceblue ##[dotted]blue {
+        detections(): Detection[]
+    }
+
+    class MotionFramework #yellow ##[dotted]
+
+    class DetectionsObserver {
+      - framework: Detectable
+      - eventsDispatcher: DetectionsDispatcher
+    }
+
+
+    class Controller #green {
+       - framework: DetectionsFramework
+       - detectionsObserver: DetectionsObserver
+    }
+
+    enum Status {
+      STOPPED
+      RUNNING
+    }
 }
-
-interface Detectable {
-    detections(): Detection[]
-}
-
-class MotionFramework
-
 
 package Detections {
-    Interface Detection {
+    interface Detection #aliceblue ##[dotted]blue {
       time: number
       data: any
     }
 
-    class MotionDetectionData {
-       audio: string
-       video: string
-       image: string
+    package Motion {
+        class MotionDetectionData {
+           audio: string
+           video: string
+           image: string
+        }
+
+        class MotionDetection {
+           time: number
+           data: MotionDetectionData
+        }
     }
 
-    class MotionDetection {
-       time: number
-       data: MotionDetectionData
+    interface DetectionsDispatcher #aliceblue ##[dotted]blue {
+       notify_about(detection: Detection)
     }
 
-    class DetectionsDispatcher {
-       notifyAbout(detection: Detection)
+    class DetectionsDispatcherViaQueue
+
+    Detection <|-down- MotionDetection
+}
+
+package Commands {
+    enum Commands {
+      START
+      STOP
+      RESTART
+      TERMINATE
     }
+
+    interface ExecutingCommands #aliceblue ##[dotted]blue {
+      do(command: Commands)
+    }
+
+    ExecutingCommands .. Commands
 }
 
 
-enum Commands {
-  START
-  STOP
-  RESTART
-  TERMINATE
-}
 
-enum Status {
-  STOPPED
-  RUNNING
-}
-
-class DetectionsObserver {
-   - framework: Detectable
-   - eventsDispatcher: DetectionsDispatcher
+interface Runnable #aliceblue ##[dotted]blue {
    start(): void
    stop(): void
 }
 
 
-class Controller {
-   - framework: DetectionsFramework
-   - detectionsObserver: DetectionsObserver
-}
-
-DetectionsObserver o. Detectable
+DetectionsObserver -up-|> Runnable
+DetectionsObserver o-right-. Detectable
 DetectionsDispatcher .* DetectionsObserver
 DetectionsFramework <|-- MotionFramework
-Detection <|-- MotionDetection
+DetectionsFramework -up-|> ExecutingCommands
+
 DetectionsFramework .. Status
 Detectable .. Detection
 DetectionsDispatcher .. Detection
-DetectionsFramework .. Commands
-MotionDetection .. MotionDetectionData
-DetectionsObserver -down-* Controller
+MotionDetection .right. MotionDetectionData
+DetectionsObserver -* Controller
 DetectionsFramework -down-* Controller
 DetectionsFramework -up-|> Detectable
+DetectionsDispatcher <|-down- DetectionsDispatcherViaQueue
 
 @enduml

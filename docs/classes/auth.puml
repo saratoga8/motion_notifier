@@ -1,0 +1,51 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class AbstractList
+abstract AbstractCollection
+interface List
+interface Collection
+
+class UserPresenceValidator {
+   detectors: DetectingUserPresence[]
+}
+
+interface DetectingUserPresence #aliceblue ##[dotted]blue {
+    is_user_here(): bool
+}
+
+interface Runnable #aliceblue ##[dotted]blue {
+   start(): void
+   stop(): void
+}
+
+class DetectingViaNetwork
+class DetectingVisual
+
+DetectingUserPresence <|-- DetectingViaNetwork
+DetectingUserPresence  <|-- DetectingVisual
+
+Runnable <|-- UserPresenceValidator
+
+
+UserPresenceValidator "*" *.left. "1" DetectingUserPresence
+
+List <|-- AbstractList
+Collection <|-- AbstractCollection
+
+Collection <|- List
+AbstractCollection <|- AbstractList
+AbstractList <|-- ArrayList
+
+class ArrayList {
+Object[] elementData
+size()
+}
+
+enum TimeUnit {
+DAYS
+HOURS
+MINUTES
+}
+
+@enduml

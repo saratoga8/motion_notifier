@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/deployment-diagram
+
+hexagon Agent {
+ component auth
+ component DFS
+ component controller
+}
+
+
+cloud network
+person visual
+node DetectionsFramework
+
+component client
+
+interface notification
+interface command
+
+actor user
+
+network -0)- auth
+visual -0)- auth
+DFS -0)- DetectionsFramework
+controller -down- notification
+notification )-down- client
+controller -down- command
+command )-down- client
+user - client
+
+
+@enduml

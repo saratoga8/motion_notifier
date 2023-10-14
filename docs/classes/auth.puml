@@ -1,17 +1,23 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
+abstract class User #palegreen ##[dashed]green {
+ - name
+}
+class NetworkUser
+class VisualUser
+
+
+User <|-- NetworkUser
+User <|-- VisualUser
 
 class UserPresenceValidator {
    detectors: DetectingUserPresence[]
 }
 
-interface DetectingUserPresence #aliceblue ##[dotted]blue {
-    is_user_here(): bool
+abstract class DetectingUserPresence #palegreen ##[dashed]green {
+    users: User[]
+    is_user_here(): UserPresence
 }
 
 interface Runnable #aliceblue ##[dotted]blue {
@@ -19,33 +25,40 @@ interface Runnable #aliceblue ##[dotted]blue {
    stop(): void
 }
 
+interface UserPresenceDispatcher #aliceblue ##[dotted]blue {
+  notify_about(presence: UserPresence)
+}
+
+class UserPresenceDispatcherViaQueue
+
+class UserPresence {
+  - user: User
+  - data: PresenceData
+}
+
+abstract class PresenceData #palegreen ##[dashed]green {
+}
+
+ PresenceData <|-- NetworkPresence
+ PresenceData <|-- VisualPresence
+
 class DetectingViaNetwork
 class DetectingVisual
 
 DetectingUserPresence <|-- DetectingViaNetwork
 DetectingUserPresence  <|-- DetectingVisual
 
+UserPresenceDispatcher <|-down- UserPresenceDispatcherViaQueue
+
+DetectingUserPresence "*" *.left "1" User
+
+
 Runnable <|-- UserPresenceValidator
 
 
 UserPresenceValidator "*" *.left. "1" DetectingUserPresence
-
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
-}
-
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
-}
+UserPresence *. PresenceData
+UserPresenceDispatcher o.. UserPresence
+DetectingUserPresence o.. UserPresence
 
 @enduml

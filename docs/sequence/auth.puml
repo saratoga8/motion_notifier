@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+hide footbox
+
+actor User
+control DetectingUserPresence as DUP
+participant UserPresence as UP
+participant UserPresenceDispatcher as UPD
+
+DUP -> User: is user here?
+activate DUP
+User -> DUP: user detected
+create UP
+DUP -> UP: new
+DUP <- UP: instance
+create UPD
+DUP -> UPD: new
+DUP -> UPD: notify
+
+
+
+
+
+@enduml

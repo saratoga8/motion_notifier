@@ -5,9 +5,11 @@ autonumber
 hide footbox
 
 actor User
-control DetectingUserPresence as DUP
+participant DetectingUserPresence as DUP
 participant UserPresence as UP
 participant UserPresenceDispatcher as UPD
+participant UserPresenceEvent as UPE
+queue Events
 
 DUP -> User: is user here?
 activate DUP
@@ -18,6 +20,11 @@ DUP <- UP: instance
 create UPD
 DUP -> UPD: new
 DUP -> UPD: notify
+create UPE
+UPD -> UPE: new
+UPE -> UPD: instance
+UPD -> Events: send
+
 
 
 

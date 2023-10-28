@@ -1,23 +1,23 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-abstract class User #palegreen ##[dashed]green {
+abstract class UserData #palegreen ##[dashed]green {
  - name
 }
-class NetworkUser
-class VisualUser
+class NetworkUserData
+class VisualUserData
 
 
-User <|-- NetworkUser
-User <|-- VisualUser
+UserData <|-- NetworkUserData
+UserData <|-- VisualUserData
 
 class UserPresenceValidator {
    detectors: DetectingUserPresence[]
 }
 
 abstract class DetectingUserPresence #palegreen ##[dashed]green {
-    users: User[]
-    is_user_here(): UserPresence
+    users: UserData[]
+    get_user_presence(): UserPresence
 }
 
 interface Runnable #aliceblue ##[dotted]blue {
@@ -32,15 +32,17 @@ interface UserPresenceDispatcher #aliceblue ##[dotted]blue {
 class UserPresenceDispatcherViaQueue
 
 class UserPresence {
-  - user: User
+  - user: UserData
   - data: PresenceData
 }
 
-abstract class PresenceData #palegreen ##[dashed]green {
+class UserPresenceEvent {
+  - user_presence: UserPresence
 }
 
- PresenceData <|-- NetworkPresence
- PresenceData <|-- VisualPresence
+class PresenceData {
+  - time: int
+}
 
 class DetectingViaNetwork
 class DetectingVisual
@@ -50,7 +52,7 @@ DetectingUserPresence  <|-- DetectingVisual
 
 UserPresenceDispatcher <|-down- UserPresenceDispatcherViaQueue
 
-DetectingUserPresence "*" *.left "1" User
+DetectingUserPresence "*" *.left "1" UserData
 
 
 Runnable <|-- UserPresenceValidator
@@ -60,5 +62,8 @@ UserPresenceValidator "*" *.left. "1" DetectingUserPresence
 UserPresence *. PresenceData
 UserPresenceDispatcher o.. UserPresence
 DetectingUserPresence o.. UserPresence
+UserPresenceDispatcherViaQueue o.. UserPresenceEvent
+UserPresenceEvent o.. UserPresence
+
 
 @enduml

@@ -20,5 +20,5 @@
 - session - system running:  
              - session on - when the system runs and can get detections  
              - session off - when the system runs and can't get detections
-
+- users - persons who's presence turns off any detection
 

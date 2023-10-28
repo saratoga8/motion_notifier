@@ -27,7 +27,6 @@ package "Agent" {
     package "Scheduling" {
       [Timer] -> [Event]
     }
-
 }
 
 package "Client" {
@@ -61,4 +60,11 @@ Agent_Controller -> [Message]
 [Visual] <- [Presence Validator]
 
 note right of "Remote Clients": CLi, WebUI, mobile
+    note left of "Scheduling"
+      send events from configuration
+      stop sending events from configuration
+      schedule events by command
+end note
+
+
 @enduml

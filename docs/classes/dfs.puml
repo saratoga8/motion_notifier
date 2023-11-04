@@ -78,6 +78,7 @@ package Commands {
 interface Runnable #aliceblue ##[dotted]blue {
    start(): void
    stop(): void
+   is_running(): bool
 }
 
 

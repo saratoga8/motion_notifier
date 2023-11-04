@@ -23,6 +23,7 @@ abstract class DetectingUserPresence #palegreen ##[dashed]green {
 interface Runnable #aliceblue ##[dotted]blue {
    start(): void
    stop(): void
+   is_running(): bool
 }
 
 interface UserPresenceDispatcher #aliceblue ##[dotted]blue {

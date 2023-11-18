@@ -2,7 +2,7 @@
 'https://plantuml.com/class-diagram
 
 class Controller {
-   timers: Timer[]
+   schedulers: TaskScheduler[]
    exec(command: Command)
    removeTimer(timer: Timer)
 }
@@ -16,10 +16,10 @@ interface Runnable #aliceblue ##[dotted]blue {
 
 Runnable <|-- Controller
 
-class Timer {
+class TaskScheduler {
    controller: Controller
    at: date
-   do(task: Task)
+   start(task: Task)
 }
 note left: at the end of the task\nremove the timer\nfrom controller
 
@@ -28,8 +28,13 @@ interface Executable #aliceblue ##[dotted]blue {
    exec()
 }
 
-class ScheduledCommand {
-
+class Command {
+   do()
 }
+
+class ScheduledCommand {
+}
+
+Command <|--ScheduledCommand
 
 @enduml

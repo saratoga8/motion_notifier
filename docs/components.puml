@@ -61,7 +61,7 @@ Agent_Controller -> [Message]
 
 note right of "Remote Clients": CLi, WebUI, mobile
     note left of "Scheduling"
-      send scheduled
+      send scheduled events
       stop sending scheduled events
       schedule events by command
 end note

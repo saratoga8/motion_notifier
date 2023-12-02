@@ -1,40 +1,41 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class Controller {
-   schedulers: TaskScheduler[]
-   exec(command: Command)
-   removeTimer(timer: Timer)
+package Scheduler {
+
+    class Controller {
+       tasks: ScheduledTask[]
+       exec(command: string)
+       remove_task(task: ScheduledTask)
+    }
+
+    interface Runnable #aliceblue ##[dotted]blue {
+       start(): void
+       stop(): void
+       is_running(): bool
+    }
+
+    Runnable <|-- Controller
+
+    class ScheduledTask {
+       controller: Controller
+       scheduler: TimeScheduler
+       get_execution_date(): Date
+    }
+    note left: at the end of the task\nremove the timer\nfrom controller
+
+    package Commands {
+        class CommandParser {
+           parse(command: string): Command
+        }
+
+        class Command {
+           do()
+        }
+
+        CommandParser o-> Command
+    }
 }
 
-
-interface Runnable #aliceblue ##[dotted]blue {
-   start(): void
-   stop(): void
-   is_running(): bool
-}
-
-Runnable <|-- Controller
-
-class TaskScheduler {
-   controller: Controller
-   at: date
-   start(task: Task)
-}
-note left: at the end of the task\nremove the timer\nfrom controller
-
-
-interface Executable #aliceblue ##[dotted]blue {
-   exec()
-}
-
-class Command {
-   do()
-}
-
-class ScheduledCommand {
-}
-
-Command <|--ScheduledCommand
 
 @enduml

@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+hide footbox
+autonumber
+
+queue Commands
+control Controller
+
+Commands -> Controller: command: string
+create Parser
+Controller -> Parser: new
+activate Parser
+create Command
+Parser -> Command: parse
+activate Command
+Command -> Controller: instance
+Controller -> Command: do
+deactivate Parser
+destroy Parser
+create Task
+Command -> Task: new
+deactivate Command
+destroy Command
+Task -> Controller: instance
+Controller -> Controller: add task to list
+@enduml

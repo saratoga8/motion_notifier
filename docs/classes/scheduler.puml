@@ -4,6 +4,7 @@
 package Scheduler {
 
     class Controller {
+       eventsQueue: EventsQueue
        tasks: ScheduledTask[]
        exec(command: string)
        remove_task(task: ScheduledTask)
@@ -18,24 +19,27 @@ package Scheduler {
     Runnable <|-- Controller
 
     class ScheduledTask {
+
        controller: Controller
        scheduler: TimeScheduler
        get_execution_date(): Date
     }
     note left: at the end of the task\nremove the timer\nfrom controller
 
-    package Commands {
-        class CommandParser {
-           parse(command: string): Command
-        }
 
-        class Command {
-           do()
-        }
-
-        CommandParser o-> Command
-    }
+    class EventsQueue {}
 }
 
+package EventsChannel {
+
+  interface EventSubscriber #aliceblue ##[dotted]blue {
+      update(event: Event): boolean
+      receive(event: Event)
+      hasEvent(): boolean
+  }
+}
+
+EventsQueue ..up|> EventSubscriber
+Controller *..right> EventsQueue
 
 @enduml

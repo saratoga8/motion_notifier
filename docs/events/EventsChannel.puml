@@ -1,0 +1,55 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package EventsChannel {
+   class SendingEventsQueue {
+      - subscribers: EventSubscriber[]
+      - addEvent(event: Event)
+      - removeEvent(event: Event)
+   }
+
+   package Events {
+       abstract class Event {
+         - parse(parser: Parser)
+       }
+
+       interface Parser #aliceblue ##[dotted]blue {
+           parse(txt: string): any
+       }
+
+       package Commands {
+            abstract class CommandParser {
+               parse(command: string): Command
+            }
+
+            interface Command #aliceblue ##[dotted]blue {
+               do()
+            }
+
+            CommandParser o-> Command
+       }
+
+       package Notifications {
+           abstract class NotificationParser {
+              parse(command: string): any
+           }
+       }
+   }
+
+
+   CommandParser ..|> Parser
+   Parser <|.. NotificationParser
+   Event o..> Parser
+
+   interface EventSubscriber #aliceblue ##[dotted]blue {
+      update(event: Event): boolean
+      receive(event: Event)
+      hasEvent(): boolean
+   }
+}
+
+EventSubscriber o..> Event
+SendingEventsQueue o..> Event
+EventSubscriber <..lefto SendingEventsQueue
+
+@enduml

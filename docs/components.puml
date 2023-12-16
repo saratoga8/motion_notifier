@@ -18,10 +18,14 @@ package "Agent" {
     }
 
 
-    package EventChannel {
+    package EventsChannel {
+      [Command] as EventCmd
+      [EventCmd] <- [Event]
       Agent_Controller --> [Event]
       [Presence Validator] -> [Event]
       [Detection] -> [Event]
+      [Notification] as CmdNotification
+      [Event] -> [CmdNotification]
     }
 
     package "Scheduling" {
@@ -38,9 +42,11 @@ package "Client" {
 }
 
 package MessagesChannel {
-    [Command] <- [Message]
+    [Command] as MsgCommand
+    [MsgCommand] <- [Message]
     [Message]
-    [Message] -> [Notification]
+    [Notification] as MsgNotification
+    [Message] -> [MsgNotification]
 }
 
 

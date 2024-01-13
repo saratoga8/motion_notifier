@@ -2,23 +2,31 @@
 'https://plantuml.com/class-diagram
 
 package EventsChannel {
-   class SendingEventsQueue {
-      - subscribers: EventSubscriber[]
-      - addEvent(event: Event)
-      - removeEvent(event: Event)
+   interface Broker<Item> #aliceblue ##[dotted]blue {
+        addItem(item: Item)
+        removeItem(item: Item)
    }
 
    package Events {
-       abstract class Event {
-         - parse(parser: Parser)
+       class EventsBroker<Event> {
+         - subscribers: Subscriber[]
+         removeItem(event: Event)
+         addItem(event: Event)
+       }
+
+
+       interface Event<DataType> #aliceblue ##[dotted]blue {
+         getData(): DataType
        }
 
        interface Parser #aliceblue ##[dotted]blue {
-           parse(txt: string): any
+           parse(event: Event): any
        }
 
        package Commands {
-            abstract class CommandParser {
+            class CommandEvent<DataType> {}
+
+            class CommandParser {
                parse(command: string): Command
             }
 
@@ -30,26 +38,33 @@ package EventsChannel {
        }
 
        package Notifications {
-           abstract class NotificationParser {
-              parse(command: string): any
+           class NotificationParser {
+              parse(command: string): Notification
            }
+
+           class NotificationEvent<DataType> {}
+           interface Notification #aliceblue ##[dotted]blue
        }
+
+       class EventsSubscriber {}
    }
 
-
+   CommandEvent ..|> Event
+   NotificationEvent ..|> Event
    CommandParser ..|> Parser
    Parser <|.. NotificationParser
-   Event o..> Parser
+   NotificationParser o-up-> Notification
 
-   interface EventSubscriber #aliceblue ##[dotted]blue {
-      update(event: Event): boolean
-      receive(event: Event)
-      hasEvent(): boolean
+   interface Subscriber<Item> #aliceblue ##[dotted]blue {
+      update(item: Item)
+      receive: Item
    }
 }
 
-EventSubscriber o..> Event
-SendingEventsQueue o..> Event
-EventSubscriber <..lefto SendingEventsQueue
+Subscriber o..> Event
+EventsBroker o..> Event
+Subscriber <..lefto EventsBroker
+EventsBroker ..|> Broker
+EventsSubscriber ..|> Subscriber
 
 @enduml

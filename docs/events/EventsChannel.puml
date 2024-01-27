@@ -4,13 +4,11 @@
 package EventsChannel {
    interface Broker<Item> #aliceblue ##[dotted]blue {
         addItem(item: Item)
-        removeItem(item: Item)
    }
 
    package Events {
-       class EventsBroker<Event> {
+       class EventsBroker<Event> #green {
          - subscribers: Subscriber[]
-         removeItem(event: Event)
          addItem(event: Event)
        }
 
@@ -39,7 +37,7 @@ package EventsChannel {
 
        package Notifications {
            class NotificationParser {
-              parse(command: string): Notification
+              parse(text: string): Notification
            }
 
            class NotificationEvent<DataType> {}
@@ -57,7 +55,7 @@ package EventsChannel {
 
    interface Subscriber<Item> #aliceblue ##[dotted]blue {
       update(item: Item)
-      receive: Item
+      receive(): Item
    }
 }
 

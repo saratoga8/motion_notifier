@@ -11,7 +11,3 @@ class EventsSubscriber(ABC):
     @abstractmethod
     def receive(self, event: Event):
         pass
-
-    @abstractmethod
-    def has_event(self) -> bool:
-        pass

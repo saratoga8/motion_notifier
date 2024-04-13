@@ -1,11 +1,19 @@
-from src.agent.queue.events_channel.events.event import Event, DataType
+import string
 
-from typing import Generic
+from src.agent.queue.events_channel.events.event import Event
+
+from typing import Generic, TypeVar
+
+DataType = TypeVar("DataType")
 
 
 class NotificationEvent(Event, Generic[DataType]):
-    def get_data(self) -> DataType:
-        pass
+    _data: string
 
-    def __init__(self):
+    def __init__(self, path: string):
         super().__init__()
+        self._data = path
+
+    @property
+    def data(self) -> DataType:
+        return self._data

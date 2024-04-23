@@ -32,5 +32,9 @@ class Event(ABC, Generic[DataType]):
         self.__state = state
 
     @state.getter
-    def id(self) -> int:
+    def state(self) -> State:
+        return self.__state
+
+    @property
+    def id(self):
         return self.__id

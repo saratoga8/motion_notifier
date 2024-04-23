@@ -19,7 +19,3 @@ class Subscriber(ABC, Generic[Item]):
     @property
     def name(self) -> str:
         return self._name
-
-    @name.getter
-    def name(self) -> str:
-        return self._name

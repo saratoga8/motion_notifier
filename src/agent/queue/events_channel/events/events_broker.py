@@ -9,52 +9,54 @@ import logging
 
 
 class EventsBroker(Broker[Event], ABC):
-    __events: {Event} = set()
-    __running: bool = False
-    __lock = threading.Lock()
-
     def __init__(self, subscribers: set[EventsSubscriber]):
-        self._subscribers = subscribers
+        self.__subscribers = subscribers
+        self.__events: {Event} = set()
+        self.__running: bool = False
+        self.__lock = threading.Lock()
 
     @property
-    def subscribers(self):
-        return self._subscribers
+    def events(self):
+        return self.__events
 
     def add_item(self, item: Event):
-        [subscriber.update(item) for subscriber in self._subscribers]
+        [subscriber.update(item) for subscriber in self.__subscribers]
 
     def _is_running(self):
-        with self.__lock:
-            return self.__running
+        return self.__running
 
-    def _observe_events(self):
+    def __observe_events(self):
         logging.debug("Starting events observing")
-        #        while self._is_running():
-        self._check_for_events()
-        self._dispatch_events()
-        time.sleep(0.1)
+        while self._is_running():
+            self.__check_for_events()
+            self.__dispatch_events()
+            self.__clean_events()
+            time.sleep(0.1)
 
     def start(self):
-        __running = True
-        threading.Thread(target=self._observe_events).start()
+        self.__running = True
+        threading.Thread(target=self.__observe_events).start()
 
     def stop(self):
+        logging.debug("stopping events observing")
         with self.__lock:
             self.__running = False
-        self._clean_events()
 
-    def _clean_events(self):
+    def __clean_events(self):  # TODO: should be added clearing the old events
+        events_copy = self.__events.copy()
         for event in self.__events:
             if event.state == State.RECEIVED:
                 logging.debug(f"Removing event: {event.id}")
-                self.__events.remove(event)
+                events_copy.remove(event)
+        if len(events_copy) != len(self.__events):
+            self.__events = events_copy
 
-    def _dispatch_events(self):
+    def __dispatch_events(self):
         for event in self.__events:
-            [subscriber.update(event) for subscriber in self._subscribers]
+            [subscriber.update(event) for subscriber in self.__subscribers]
 
-    def _check_for_events(self):
-        for subscriber in self._subscribers:
+    def __check_for_events(self):
+        for subscriber in self.__subscribers:
             event = subscriber.give()
             if event is not None:
                 event.state = State.SENT

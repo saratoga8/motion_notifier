@@ -8,6 +8,11 @@ from src.agent.queue.events_channel.events.notifications.notification_event impo
     NotificationEvent,
 )
 
+from typing import TypeVar, Set, Type
+
+SubscriberType = TypeVar("SubscriberType")
+
+
 eventPath = "/from/path"
 
 
@@ -20,6 +25,7 @@ def test_dispatch_event_to_subscriber(caplog):
     broker = EventsBroker({sender, receiver})
 
     broker.start()
+    time.sleep(0.2)
     broker.stop()
 
     assert receiver.is_updated(), "Receiver did not update"
@@ -35,29 +41,53 @@ def test_event_not_dispatched(caplog):
     broker = EventsBroker({sender, decliner})
 
     broker.start()
-    time.sleep(0.5)
+    time.sleep(0.3)
     broker.stop()
 
     assert len(broker.events) == 1, "Invalid number of existing events"
 
 
-def generateSenders():
+def test_dispatch_all_events():
+    subscribers_num = 1000
+    senders = generate_senders(EventsSubscriberSenderNumbered, subscribers_num)
+    receivers = generate_senders(EventsSubscriberReceiverNumbered, subscribers_num)
 
-
-def test_dispatch_all_events(caplog):
-    caplog.set_level(logging.DEBUG)
-
-    senders: EventsSubscriber[] = generateSenders()
-    receivers: EventsSubscriber[] = generateReceivers()
-
-    broker = EventsBroker(senders)
+    broker = EventsBroker(senders | receivers)
     broker.start()
-    [broker.add_item(receiver) for receiver in receivers]
-
-    time.sleep(0.5)
+    time.sleep(0.3)
     broker.stop()
 
     assert len(broker.events) == 0, "There are still existing events"
+
+
+def test_adding_subscriber(caplog):
+    caplog.set_level(logging.DEBUG)
+
+    sender = EventsSubscriberSender()
+    decliner = EventsSubscriberDecliner()
+    receiver = EventsSubscriberReceiver()
+
+    broker = EventsBroker({sender, decliner})
+
+    broker.start()
+    time.sleep(0.3)
+    assert len(broker.events) == 1, "Invalid number of existing events"
+    broker.add_subscriber(receiver)
+    time.sleep(0.3)
+
+    broker.stop()
+    assert receiver.is_updated(), "Receiver did not update"
+    assert len(broker.events) == 0, "There is still existing event"
+
+
+def generate_senders(class_type: Type[SubscriberType], num: int) -> Set[SubscriberType]:
+    senders: Set[SubscriberType] = set()
+    for i in range(num):
+        if class_type == EventsSubscriberReceiverNumbered:
+            senders.add(EventsSubscriberReceiverNumbered(i))
+        if class_type == EventsSubscriberSenderNumbered:
+            senders.add(EventsSubscriberSenderNumbered(i))
+    return senders
 
 
 class EventsSubscriberSender(EventsSubscriber):
@@ -97,6 +127,7 @@ class EventsSubscriberDecliner(EventsSubscriber):
     def give(self) -> Event | None:
         pass
 
+
 class EventsSubscriberSenderNumbered(EventsSubscriber):
     def __init__(self, number: int):
         EventsSubscriber.__init__(self, f"Sender{number}")
@@ -106,7 +137,8 @@ class EventsSubscriberSenderNumbered(EventsSubscriber):
     def update(self, event: Event):
         pass
 
-class EventsSubscriberReceiverNumberd(EventsSubscriber):
+
+class EventsSubscriberReceiverNumbered(EventsSubscriber):
     def __init__(self, number: int):
         EventsSubscriber.__init__(self, f"Receiver{number}")
         self.__updated = False

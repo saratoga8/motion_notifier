@@ -8,7 +8,7 @@ from src.agent.queue.events_channel.events.events_subscriber import EventsSubscr
 import logging
 
 
-class EventsBroker(Broker[Event], ABC):
+class EventsBroker(Broker[EventsSubscriber], ABC):
     def __init__(self, subscribers: set[EventsSubscriber]):
         self.__subscribers = subscribers
         self.__events: {Event} = set()
@@ -19,8 +19,9 @@ class EventsBroker(Broker[Event], ABC):
     def events(self):
         return self.__events
 
-    def add_item(self, item: Event):
-        [subscriber.update(item) for subscriber in self.__subscribers]
+    def add_subscriber(self, subscriber: EventsSubscriber):
+        logging.debug(f"Adding subscriber {subscriber.name}")
+        self.__subscribers.add(subscriber)
 
     def _is_running(self):
         return self.__running
@@ -42,7 +43,7 @@ class EventsBroker(Broker[Event], ABC):
         with self.__lock:
             self.__running = False
 
-    def __clean_events(self):  # TODO: should be added clearing the old events
+    def __clean_events(self):  # TODO: should be added clearing the old events: weakref
         events_copy = self.__events.copy()
         for event in self.__events:
             if event.state == State.RECEIVED:

@@ -1,10 +1,12 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
-DataType = TypeVar("DataType")
+SubscriberType = TypeVar("SubscriberType")
 
 
-class Broker(ABC, Generic[DataType]):
+class Broker(
+    ABC, Generic[SubscriberType]
+):  # TODO: Should be removed. Just use EventsBroker
     @abstractmethod
-    def add_item(self, item: DataType) -> None:
+    def add_subscriber(self, subscriber: SubscriberType) -> None:
         pass

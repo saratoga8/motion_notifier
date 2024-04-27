@@ -14,7 +14,7 @@ class State(Enum):
 
 class Event(ABC, Generic[DataType]):
     def __init__(self):
-        self.__id = int(round(time.time()))
+        self.__id = time.time_ns()
         self.__from = None
         self.__state = State.GENERATED
 

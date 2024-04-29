@@ -18,7 +18,7 @@ class EventsSubscriber(Subscriber[Event]):
         event.state = State.RECEIVED
         logging.debug(f"updated subscriber '{self.name}' by event: {event.id}")
 
-    def give(self) -> Event | None:
+    def produce(self) -> Event | None:
         if not self._events.empty():
             event = self._events.get()
             event.state = State.GENERATED

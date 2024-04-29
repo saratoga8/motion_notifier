@@ -109,7 +109,7 @@ class EventsSubscriberReceiver(EventsSubscriber):
         super().update(event)
         self.__updated = event.data == eventPath
 
-    def give(self) -> Event | None:
+    def produce(self) -> Event | None:
         pass
 
     def is_updated(self) -> bool:
@@ -124,7 +124,7 @@ class EventsSubscriberDecliner(EventsSubscriber):
     def update(self, event: Event):
         pass
 
-    def give(self) -> Event | None:
+    def produce(self) -> Event | None:
         pass
 
 
@@ -149,7 +149,7 @@ class EventsSubscriberReceiverNumbered(EventsSubscriber):
             super().update(event)
             self.__updated = True
 
-    def give(self) -> Event | None:
+    def produce(self) -> Event | None:
         pass
 
     def is_updated(self) -> bool:

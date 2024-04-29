@@ -1,14 +1,12 @@
 import threading
-import time
-from abc import ABC
 
-from src.agent.queue.events_channel.broker import Broker
+from time import sleep
 from src.agent.queue.events_channel.events.event import Event, State
 from src.agent.queue.events_channel.events.events_subscriber import EventsSubscriber
 import logging
 
 
-class EventsBroker(Broker[EventsSubscriber], ABC):
+class EventsBroker:
     def __init__(self, subscribers: set[EventsSubscriber]):
         self.__subscribers = subscribers
         self.__events: {Event} = set()
@@ -20,23 +18,30 @@ class EventsBroker(Broker[EventsSubscriber], ABC):
         return self.__events
 
     def add_subscriber(self, subscriber: EventsSubscriber):
-        logging.debug(f"Adding subscriber {subscriber.name}")
-        self.__subscribers.add(subscriber)
+        if subscriber:
+            logging.debug(f"Adding subscriber {subscriber.name}")
+            self.__subscribers.add(subscriber)
+        else:
+            logging.warn('Can not add an invalid subscriber')
 
-    def _is_running(self):
-        return self.__running
+    def __is_running(self):
+        with self.__lock:
+            return self.__running
 
     def __observe_events(self):
         logging.debug("Starting events observing")
-        while self._is_running():
+        while self.__is_running():
             self.__check_for_events()
             self.__dispatch_events()
             self.__clean_events()
-            time.sleep(0.1)
+            sleep(0.1)
 
     def start(self):
-        self.__running = True
-        threading.Thread(target=self.__observe_events).start()
+        if not self.__is_running():
+            self.__running = True
+            threading.Thread(target=self.__observe_events).start()
+        else:
+            logging.warn('Can not start the broker. The broker is still running')
 
     def stop(self):
         logging.debug("stopping events observing")
@@ -58,7 +63,7 @@ class EventsBroker(Broker[EventsSubscriber], ABC):
 
     def __check_for_events(self):
         for subscriber in self.__subscribers:
-            event = subscriber.give()
+            event = subscriber.produce()
             if event is not None:
                 event.state = State.SENT
                 logging.debug(f"adding the event '{event.id}' to the queue")

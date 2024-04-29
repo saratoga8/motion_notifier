@@ -13,7 +13,7 @@ class Subscriber(ABC, Generic[Item]):
         pass
 
     @abstractmethod
-    def give(self) -> Item:
+    def produce(self) -> Item:
         pass
 
     @property

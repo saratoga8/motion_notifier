@@ -1,10 +1,10 @@
 import logging
 import time
 
-from src.agent.queue.events_channel.events.event import Event
-from src.agent.queue.events_channel.events.events_broker import EventsBroker
-from src.agent.queue.events_channel.events.events_subscriber import EventsSubscriber
-from src.agent.queue.events_channel.events.notifications.notification_event import (
+from src.agent.my_queue.events_channel.events.event import Event
+from src.agent.my_queue.events_channel.events.events_broker import EventsBroker
+from src.agent.my_queue.events_channel.events.events_subscriber import EventsSubscriber
+from src.agent.my_queue.events_channel.events.notifications.notification_event import (
     NotificationEvent,
 )
 

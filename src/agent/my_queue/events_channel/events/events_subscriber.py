@@ -1,7 +1,7 @@
 from copy import copy
 
-from src.agent.queue.events_channel.subscriber import Subscriber
-from src.agent.queue.events_channel.events.event import Event, State
+from src.agent.my_queue.events_channel.subscriber import Subscriber
+from src.agent.my_queue.events_channel.events.event import Event, State
 from queue import SimpleQueue
 import logging
 

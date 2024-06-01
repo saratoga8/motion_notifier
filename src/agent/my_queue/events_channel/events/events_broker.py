@@ -1,14 +1,14 @@
 import threading
 
 from time import sleep
-from src.agent.queue.events_channel.events.event import Event, State
-from src.agent.queue.events_channel.events.events_subscriber import EventsSubscriber
+from src.agent.my_queue.events_channel.events.event import Event, State
+from src.agent.my_queue.events_channel.events.events_subscriber import EventsSubscriber
 import logging
 
 
 class EventsBroker:
-    def __init__(self, subscribers: set[EventsSubscriber]):
-        self.__subscribers = subscribers
+    def __init__(self, subscribers=None):
+        self.__subscribers: set[EventsSubscriber] = subscribers if subscribers else set()
         self.__events: {Event} = set()
         self.__running: bool = False
         self.__lock = threading.Lock()

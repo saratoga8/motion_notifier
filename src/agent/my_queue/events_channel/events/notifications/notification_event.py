@@ -1,6 +1,6 @@
 import string
 
-from src.agent.queue.events_channel.events.event import Event
+from src.agent.my_queue.events_channel.events.event import Event
 
 from typing import Generic, TypeVar
 

@@ -16,3 +16,8 @@ Feature: Scheduling actions
     And user asks for running scheduling
     Then user gets the running scheduling
 
+  Scenario: Stopping currently running scheduler
+    When user schedules a recurrent action
+    And user stops the scheduler
+    Then the scheduler doesn't run
+

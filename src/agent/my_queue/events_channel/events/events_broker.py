@@ -1,14 +1,16 @@
+import logging
 import threading
-
 from time import sleep
+
 from src.agent.my_queue.events_channel.events.event import Event, State
 from src.agent.my_queue.events_channel.events.events_subscriber import EventsSubscriber
-import logging
 
 
 class EventsBroker:
     def __init__(self, subscribers=None):
-        self.__subscribers: set[EventsSubscriber] = subscribers if subscribers else set()
+        self.__subscribers: set[EventsSubscriber] = (
+            subscribers if subscribers else set()
+        )
         self.__events: {Event} = set()
         self.__running: bool = False
         self.__lock = threading.Lock()
@@ -22,7 +24,7 @@ class EventsBroker:
             logging.debug(f"Adding subscriber {subscriber.name}")
             self.__subscribers.add(subscriber)
         else:
-            logging.warn('Can not add an invalid subscriber')
+            logging.warning("Can not add an invalid subscriber")
 
     def __is_running(self):
         with self.__lock:
@@ -41,7 +43,7 @@ class EventsBroker:
             self.__running = True
             threading.Thread(target=self.__observe_events).start()
         else:
-            logging.warn('Can not start the broker. The broker is still running')
+            logging.warning("Can not start the broker. The broker is still running")
 
     def stop(self):
         logging.debug("stopping events observing")

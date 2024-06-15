@@ -2,8 +2,8 @@ import logging
 import threading
 import time
 
-from src.agent.scheduling.tasks.scheduled_task import ScheduledTask
 from src.agent.scheduling.config_manager import SchedulerConfigManager
+from src.agent.scheduling.tasks.scheduled_task import ScheduledTask
 
 
 class Controller:
@@ -20,16 +20,20 @@ class Controller:
     def start(self):
         if not self.__is_running():
             self.__running = True
-            threading.Thread(target=self.__observe_tasks, name="ScheduledTasksController", daemon=True).start()
+            threading.Thread(
+                target=self.__observe_tasks,
+                name="ScheduledTasksController",
+                daemon=True,
+            ).start()
         else:
-            logging.warn("Can not start tasks observing. It's already running")
+            logging.warning("Can not start tasks observing. It's already running")
 
     def __observe_tasks(self):
-        logging.debug('Starting tasks observing')
+        logging.debug("Starting tasks observing")
         while self.__is_running():
             self.__execute_tasks()
             self.__del_executed_tasks()
-            time.sleep(.1)
+            time.sleep(0.1)
 
     def __execute_tasks(self):
         tasks_copy = self._tasks.copy()
@@ -43,7 +47,7 @@ class Controller:
         tasks_copy = self._tasks.copy()
         for task in self._tasks:
             if task.is_executed:
-                logging.debug('Removing task')
+                logging.debug("Removing task")
                 tasks_copy.remove(task)
         if len(tasks_copy) < len(self._tasks):
             self._tasks = tasks_copy

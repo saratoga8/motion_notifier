@@ -1,10 +1,11 @@
 @startuml
 'https://plantuml.com/component-diagram
 
-left to right direction
 
-package "Agent" {
+
+package Agent {
     [Controller] as Agent_Controller
+
     package "Authentication" {
       [Presence Validator]
       [Network]
@@ -50,8 +51,7 @@ package MessagesChannel {
 }
 
 
-cloud "Remote Clients" {
-}
+cloud "Remote Clients"
 
 [Applications] <-- [Messages Dispatcher]
 [Applications] -> "Remote Clients"

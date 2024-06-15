@@ -1,0 +1,8 @@
+name: Testing one time scheduling
+# Syntax of a one time scheduling
+# start - to start in the given time (e.g. "start: 1m" means start in 1 minute)
+# stop(optional) - to stop after the given time (when it started)
+# If there is no start time, start immediately and stop after the given time
+# If there is no stop, stop
+start: 1s
+stop: 1s

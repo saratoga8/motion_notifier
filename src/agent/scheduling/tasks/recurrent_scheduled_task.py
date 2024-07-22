@@ -10,4 +10,3 @@ class RecurrentScheduledTask(ScheduledTask):
     @abstractmethod
     def exec(self) -> None:
         self._executed = False
-        pass
